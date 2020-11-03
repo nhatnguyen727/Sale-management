@@ -1,0 +1,2151 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+package view;
+
+import java.awt.Color;
+import java.awt.Frame;
+import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
+import javax.swing.table.DefaultTableModel;
+import model.Product;
+import controller.ProductController;
+import controller.ProductDetailsController;
+import controller.Validation;
+import java.awt.CardLayout;
+import java.awt.Cursor;
+import java.awt.Font;
+import java.awt.Graphics;
+import java.awt.Image;
+import java.awt.image.BufferedImage;
+import java.io.ByteArrayInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.text.DecimalFormat;
+import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+import javax.imageio.ImageIO;
+import javax.swing.DefaultListModel;
+import javax.swing.ImageIcon;
+import javax.swing.JDialog;
+import javax.swing.JFileChooser;
+import javax.swing.JTable;
+import javax.swing.filechooser.FileNameExtensionFilter;
+import model.ProductDetails;
+
+/**
+ *
+ * @author stfu
+ */
+public class QLSanPham extends javax.swing.JFrame {
+
+    String[] headerTableProduct = null;
+    DefaultTableModel modelProduct = null;
+    String[] headerTableDetail = null;
+    DefaultTableModel modelDetail = null;
+    DecimalFormat currencyFormatter = new DecimalFormat("###,###,###");
+
+    /**
+     * Creates new form QLSanPham
+     */
+    public QLSanPham() {
+        /* Set the Windows look and feel */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Windows".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(QLSanPham.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+        initComponents();
+
+        //load data from DB to the table
+        createHeaderTableProduct();
+        createDataTableProduct();
+        createHeaderTableDetail();
+        createDataTableDetail();
+        tbl_product.getTableHeader().setForeground(new Color(3, 140, 90));
+        tbl_product.getTableHeader().setBackground(new Color(1, 198, 83));
+        tbl_product.getTableHeader().setFont(new Font("Dialog", Font.BOLD, 12));
+        tbl_detail.getTableHeader().setForeground(new Color(3, 140, 90));
+        tbl_detail.getTableHeader().setBackground(new Color(1, 198, 83));
+        tbl_detail.getTableHeader().setFont(new Font("Dialog", Font.BOLD, 12));
+    }
+
+    private void createHeaderTableProduct() {
+        headerTableProduct = new String[4];
+        headerTableProduct[0] = "ID Sản Phẩm";
+        headerTableProduct[1] = "Tên Sản Phẩm";
+        headerTableProduct[2] = "Giá (VNĐ)";
+        headerTableProduct[3] = "Số Lượng";
+    }
+
+    private void createDataTableProduct() {
+        Object[][] dataTable = null;
+        modelProduct = new DefaultTableModel(dataTable, headerTableProduct);
+        List<Product> list = ProductController.GetListProduct();
+        for (Product iProduct : list) {
+            modelProduct.addRow(new Object[]{iProduct.getProductID(), iProduct.getProductName(), currencyFormatter.format(iProduct.getUnitPrice()), iProduct.getQtyonHand()});
+        }
+        tbl_product.setModel(modelProduct);
+    }
+
+    private void createHeaderTableDetail() {
+        headerTableDetail = new String[9];
+        headerTableDetail[0] = "ID Sản Phẩm";
+        headerTableDetail[1] = "Hình ảnh";
+        headerTableDetail[2] = "Bộ xử lý";
+        headerTableDetail[3] = "Ram";
+        headerTableDetail[4] = "Kích thước";
+        headerTableDetail[5] = "Khối lượng";
+        headerTableDetail[6] = "Ổ cứng";
+        headerTableDetail[7] = "Card đồ họa";
+        headerTableDetail[8] = "Pin";
+    }
+
+    private void createDataTableDetail() {
+        Object[][] dataTable = null;
+        modelDetail = new DefaultTableModel(dataTable, headerTableDetail);
+        List<ProductDetails> list = ProductDetailsController.GetListProductDetails();
+        for (ProductDetails iPD : list) {
+            modelDetail.addRow(new Object[]{iPD.getProductId(), "click để xem", iPD.getProcessorCPU(), iPD.getRam(), iPD.getSizes(), iPD.getWeights(),
+                iPD.getHDD_SSD(), iPD.getGPU(), iPD.getBattery()});
+        }
+        tbl_detail.setModel(modelDetail);
+    }
+
+    /**
+     * This method is called from within the constructor to initialize the form.
+     * WARNING: Do NOT modify this code. The content of this method is always
+     * regenerated by the Form Editor.
+     */
+    @SuppressWarnings("unchecked")
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    private void initComponents() {
+
+        jPopupMenu1 = new javax.swing.JPopupMenu();
+        jMenuItemEdit = new javax.swing.JMenuItem();
+        jMenuItemDelete = new javax.swing.JMenuItem();
+        jPopupMenu2 = new javax.swing.JPopupMenu();
+        jMenuItemEdit1 = new javax.swing.JMenuItem();
+        jMenuItemDelete1 = new javax.swing.JMenuItem();
+        jDialog1 = new javax.swing.JDialog();
+        jPanelAddAndEdit = new javax.swing.JPanel();
+        jLabel4 = new javax.swing.JLabel();
+        jLabel5 = new javax.swing.JLabel();
+        txt_processorCPU = new javax.swing.JTextField();
+        txt_ram = new javax.swing.JTextField();
+        txt_size = new javax.swing.JTextField();
+        jLabel7 = new javax.swing.JLabel();
+        txt_weight = new javax.swing.JTextField();
+        jLabel8 = new javax.swing.JLabel();
+        txt_battery = new javax.swing.JTextField();
+        txt_card = new javax.swing.JTextField();
+        jLabel9 = new javax.swing.JLabel();
+        jLabel10 = new javax.swing.JLabel();
+        jLabel11 = new javax.swing.JLabel();
+        txt_disk = new javax.swing.JTextField();
+        jSeparator2 = new javax.swing.JSeparator();
+        lbl_shipping2 = new javax.swing.JLabel();
+        lbl_receiver = new javax.swing.JLabel();
+        jButton1 = new javax.swing.JButton();
+        jButton2 = new javax.swing.JButton();
+        txt_name = new javax.swing.JTextField();
+        jLabel33 = new javax.swing.JLabel();
+        txt_price = new javax.swing.JTextField();
+        lbl_shipping4 = new javax.swing.JLabel();
+        jLabel34 = new javax.swing.JLabel();
+        jLabel32 = new javax.swing.JLabel();
+        jButton3 = new javax.swing.JButton();
+        jPanelAddImg = new javax.swing.JPanel();
+        jLabelAddImg = new javax.swing.JLabel();
+        jDialog2 = new javax.swing.JDialog();
+        jPanelView = new javax.swing.JPanel();
+        jPanelHeader = new javax.swing.JPanel();
+        jSeparator_search = new javax.swing.JSeparator();
+        jTextFieldSearch = new javax.swing.JTextField();
+        jLabel_search = new javax.swing.JLabel();
+        jLabel_close1 = new javax.swing.JLabel();
+        jPanelList = new javax.swing.JPanel();
+        jScrollPane3 = new javax.swing.JScrollPane();
+        jList1 = new javax.swing.JList<>();
+        jLabel1 = new javax.swing.JLabel();
+        jPanelInfo = new javax.swing.JPanel();
+        jLabel35 = new javax.swing.JLabel();
+        jLabel36 = new javax.swing.JLabel();
+        jLabel55 = new javax.swing.JLabel();
+        jLabelPrice = new javax.swing.JLabel();
+        jLabelProcessorCPU = new javax.swing.JLabel();
+        jLabelRam = new javax.swing.JLabel();
+        jLabel61 = new javax.swing.JLabel();
+        jLabelBatt = new javax.swing.JLabel();
+        jLabelPName = new javax.swing.JLabel();
+        jLabel64 = new javax.swing.JLabel();
+        jLabelSizes = new javax.swing.JLabel();
+        jLabel66 = new javax.swing.JLabel();
+        jLabelWeights = new javax.swing.JLabel();
+        jLabel68 = new javax.swing.JLabel();
+        jLabelDisk = new javax.swing.JLabel();
+        jLabel70 = new javax.swing.JLabel();
+        jLabelGPU = new javax.swing.JLabel();
+        jLabel37 = new javax.swing.JLabel();
+        jLabelQty = new javax.swing.JLabel();
+        jPanelImg = new javax.swing.JPanel();
+        jLabel12 = new javax.swing.JLabel();
+        img = new javax.swing.JLabel();
+        jLabel14 = new javax.swing.JLabel();
+        jLabelViewImg = new javax.swing.JLabel();
+        jDialog3 = new javax.swing.JDialog();
+        jPanel_img = new javax.swing.JPanel();
+        jLabel_img = new javax.swing.JLabel();
+        jPanel_close = new javax.swing.JPanel();
+        jLabel_close2 = new javax.swing.JLabel();
+        sidebar = new javax.swing.JPanel();
+        lbl_add = new javax.swing.JLabel();
+        jPanel1 = new javax.swing.JPanel();
+        jLabel2 = new javax.swing.JLabel();
+        jLabel3 = new javax.swing.JLabel();
+        lbl_view = new javax.swing.JLabel();
+        lbl_out = new javax.swing.JLabel();
+        header = new javax.swing.JPanel();
+        btn_product = new javax.swing.JLabel();
+        btn_detail = new javax.swing.JLabel();
+        jPanel_clomin = new javax.swing.JPanel();
+        jLabel_mini = new javax.swing.JLabel();
+        jLabel_close = new javax.swing.JLabel();
+        jLabel16 = new javax.swing.JLabel();
+        jSeparator1 = new javax.swing.JSeparator();
+        jPanel_search = new javax.swing.JPanel();
+        txt_search_product = new javax.swing.JTextField();
+        txt_search_productDetail = new javax.swing.JTextField();
+        footer = new javax.swing.JPanel();
+        product = new javax.swing.JPanel();
+        jScrollPane1 = new javax.swing.JScrollPane();
+        tbl_product = new javax.swing.JTable();
+        productdetail = new javax.swing.JPanel();
+        jScrollPane2 = new javax.swing.JScrollPane();
+        tbl_detail = new javax.swing.JTable();
+
+        jMenuItemEdit.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/icons8-edit-18.png"))); // NOI18N
+        jMenuItemEdit.setText("Sửa");
+        jMenuItemEdit.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemEditActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuItemEdit);
+
+        jMenuItemDelete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/icons8-delete-18.png"))); // NOI18N
+        jMenuItemDelete.setText("Xóa");
+        jMenuItemDelete.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemDeleteActionPerformed(evt);
+            }
+        });
+        jPopupMenu1.add(jMenuItemDelete);
+
+        jMenuItemEdit1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/icons8-edit-18.png"))); // NOI18N
+        jMenuItemEdit1.setText("Sửa");
+        jMenuItemEdit1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemEdit1ActionPerformed(evt);
+            }
+        });
+        jPopupMenu2.add(jMenuItemEdit1);
+
+        jMenuItemDelete1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/icons8-delete-18.png"))); // NOI18N
+        jMenuItemDelete1.setText("Xóa");
+        jMenuItemDelete1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jMenuItemDelete1ActionPerformed(evt);
+            }
+        });
+        jPopupMenu2.add(jMenuItemDelete1);
+
+        jDialog1.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        jDialog1.setModal(true);
+        jDialog1.setName("dialog1"); // NOI18N
+        jDialog1.setUndecorated(true);
+        jDialog1.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                jDialog1MouseDragged(evt);
+            }
+        });
+        jDialog1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jDialog1MousePressed(evt);
+            }
+        });
+
+        jPanelAddAndEdit.setBackground(new java.awt.Color(255, 255, 255));
+        jPanelAddAndEdit.setPreferredSize(new java.awt.Dimension(550, 700));
+
+        jLabel4.setFont(new java.awt.Font("Segoe UI Light", 0, 12)); // NOI18N
+        jLabel4.setForeground(new java.awt.Color(60, 63, 65));
+        jLabel4.setText("Processor");
+
+        jLabel5.setFont(new java.awt.Font("Segoe UI Light", 0, 12)); // NOI18N
+        jLabel5.setForeground(new java.awt.Color(60, 63, 65));
+        jLabel5.setText("Ram");
+
+        txt_processorCPU.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txt_processorCPU.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, null));
+        txt_processorCPU.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_processorCPUActionPerformed(evt);
+            }
+        });
+
+        txt_ram.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txt_ram.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, null));
+        txt_ram.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_ramActionPerformed(evt);
+            }
+        });
+
+        txt_size.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txt_size.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, null));
+        txt_size.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_sizeActionPerformed(evt);
+            }
+        });
+
+        jLabel7.setFont(new java.awt.Font("Segoe UI Light", 0, 12)); // NOI18N
+        jLabel7.setForeground(new java.awt.Color(60, 63, 65));
+        jLabel7.setText("Kích thước");
+
+        txt_weight.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txt_weight.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, null));
+        txt_weight.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_weightActionPerformed(evt);
+            }
+        });
+
+        jLabel8.setFont(new java.awt.Font("Segoe UI Light", 0, 12)); // NOI18N
+        jLabel8.setForeground(new java.awt.Color(60, 63, 65));
+        jLabel8.setText("Trọng lượng");
+
+        txt_battery.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txt_battery.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, null));
+        txt_battery.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_batteryActionPerformed(evt);
+            }
+        });
+
+        txt_card.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txt_card.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, null));
+        txt_card.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_cardActionPerformed(evt);
+            }
+        });
+
+        jLabel9.setFont(new java.awt.Font("Segoe UI Light", 0, 12)); // NOI18N
+        jLabel9.setForeground(new java.awt.Color(60, 63, 65));
+        jLabel9.setText("Ổ cứng");
+
+        jLabel10.setFont(new java.awt.Font("Segoe UI Light", 0, 12)); // NOI18N
+        jLabel10.setForeground(new java.awt.Color(60, 63, 65));
+        jLabel10.setText("Card đồ họa");
+
+        jLabel11.setFont(new java.awt.Font("Segoe UI Light", 0, 12)); // NOI18N
+        jLabel11.setForeground(new java.awt.Color(60, 63, 65));
+        jLabel11.setText("Pin");
+
+        txt_disk.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txt_disk.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, null));
+        txt_disk.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                txt_diskActionPerformed(evt);
+            }
+        });
+
+        lbl_shipping2.setFont(new java.awt.Font("Segoe UI Light", 1, 14)); // NOI18N
+        lbl_shipping2.setForeground(new java.awt.Color(60, 63, 65));
+        lbl_shipping2.setText("Chi tiết sản phẩm");
+        lbl_shipping2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbl_shipping2MouseClicked(evt);
+            }
+        });
+
+        lbl_receiver.setFont(new java.awt.Font("Segoe UI Light", 1, 18)); // NOI18N
+        lbl_receiver.setForeground(new java.awt.Color(60, 63, 65));
+        lbl_receiver.setText("get String từ button");
+        lbl_receiver.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbl_receiverMouseClicked(evt);
+            }
+        });
+
+        jButton1.setBackground(new java.awt.Color(36, 193, 93));
+        jButton1.setText("Chấp nhận");
+        jButton1.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jButton1.setRequestFocusEnabled(false);
+        jButton1.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton1ActionPerformed(evt);
+            }
+        });
+
+        jButton2.setBackground(new java.awt.Color(36, 193, 93));
+        jButton2.setText("Xóa bản ghi");
+        jButton2.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jButton2.setRequestFocusEnabled(false);
+        jButton2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton2MouseClicked(evt);
+            }
+        });
+
+        txt_name.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txt_name.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, null));
+
+        jLabel33.setFont(new java.awt.Font("Segoe UI Light", 0, 12)); // NOI18N
+        jLabel33.setForeground(new java.awt.Color(60, 63, 65));
+        jLabel33.setText("Tên");
+
+        txt_price.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        txt_price.setBorder(javax.swing.BorderFactory.createEtchedBorder(java.awt.Color.lightGray, null));
+
+        lbl_shipping4.setFont(new java.awt.Font("Segoe UI Light", 0, 12)); // NOI18N
+        lbl_shipping4.setForeground(new java.awt.Color(60, 63, 65));
+        lbl_shipping4.setText("Giá");
+        lbl_shipping4.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbl_shipping4MouseClicked(evt);
+            }
+        });
+
+        jLabel34.setFont(new java.awt.Font("Segoe UI Light", 0, 12)); // NOI18N
+        jLabel34.setForeground(new java.awt.Color(60, 63, 65));
+        jLabel34.setText("Hình ảnh");
+
+        jLabel32.setBackground(new java.awt.Color(255, 255, 255));
+        jLabel32.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel32.setForeground(new java.awt.Color(69, 73, 74));
+        jLabel32.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel32.setText("X");
+        jLabel32.setOpaque(true);
+        jLabel32.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel32MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabel32MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLabel32MouseExited(evt);
+            }
+        });
+
+        jButton3.setBackground(new java.awt.Color(36, 193, 93));
+        jButton3.setFont(new java.awt.Font("Segoe UI Light", 2, 12)); // NOI18N
+        jButton3.setText("Chọn hình ảnh");
+        jButton3.setBorder(javax.swing.BorderFactory.createEmptyBorder(1, 1, 1, 1));
+        jButton3.setRequestFocusEnabled(false);
+        jButton3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jButton3MouseClicked(evt);
+            }
+        });
+        jButton3.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                jButton3ActionPerformed(evt);
+            }
+        });
+
+        jPanelAddImg.setPreferredSize(new java.awt.Dimension(150, 150));
+
+        jLabelAddImg.setPreferredSize(new java.awt.Dimension(150, 150));
+
+        javax.swing.GroupLayout jPanelAddImgLayout = new javax.swing.GroupLayout(jPanelAddImg);
+        jPanelAddImg.setLayout(jPanelAddImgLayout);
+        jPanelAddImgLayout.setHorizontalGroup(
+            jPanelAddImgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabelAddImg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanelAddImgLayout.setVerticalGroup(
+            jPanelAddImgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabelAddImg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+
+        javax.swing.GroupLayout jPanelAddAndEditLayout = new javax.swing.GroupLayout(jPanelAddAndEdit);
+        jPanelAddAndEdit.setLayout(jPanelAddAndEditLayout);
+        jPanelAddAndEditLayout.setHorizontalGroup(
+            jPanelAddAndEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelAddAndEditLayout.createSequentialGroup()
+                .addGap(78, 78, 78)
+                .addGroup(jPanelAddAndEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(lbl_receiver)
+                    .addGroup(jPanelAddAndEditLayout.createSequentialGroup()
+                        .addGap(2, 2, 2)
+                        .addGroup(jPanelAddAndEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanelAddAndEditLayout.createSequentialGroup()
+                                .addGroup(jPanelAddAndEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel33)
+                                    .addComponent(lbl_shipping4))
+                                .addGap(51, 51, 51)
+                                .addGroup(jPanelAddAndEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txt_name, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txt_price)))
+                            .addComponent(lbl_shipping2)
+                            .addGroup(jPanelAddAndEditLayout.createSequentialGroup()
+                                .addGroup(jPanelAddAndEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(jLabel9)
+                                    .addComponent(jLabel10)
+                                    .addComponent(jLabel11)
+                                    .addComponent(jLabel34)
+                                    .addComponent(jLabel5)
+                                    .addComponent(jLabel4)
+                                    .addComponent(jLabel7))
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addGroup(jPanelAddAndEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(txt_processorCPU, javax.swing.GroupLayout.PREFERRED_SIZE, 300, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addGroup(jPanelAddAndEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addGroup(jPanelAddAndEditLayout.createSequentialGroup()
+                                            .addComponent(txt_size, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                            .addGap(18, 18, 18)
+                                            .addComponent(jLabel8)
+                                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                            .addComponent(txt_weight, javax.swing.GroupLayout.DEFAULT_SIZE, 84, Short.MAX_VALUE))
+                                        .addComponent(txt_card)
+                                        .addComponent(txt_battery)
+                                        .addComponent(txt_disk)
+                                        .addComponent(txt_ram))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelAddAndEditLayout.createSequentialGroup()
+                                        .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addGap(60, 60, 60)
+                                        .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 120, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jPanelAddImg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 369, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                .addContainerGap(101, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelAddAndEditLayout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanelAddAndEditLayout.setVerticalGroup(
+            jPanelAddAndEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelAddAndEditLayout.createSequentialGroup()
+                .addComponent(jLabel32, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbl_receiver)
+                .addGap(18, 18, 18)
+                .addGroup(jPanelAddAndEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_name, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel33))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelAddAndEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbl_shipping4)
+                    .addComponent(txt_price, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addGap(18, 18, 18)
+                .addComponent(jSeparator2, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lbl_shipping2)
+                .addGap(12, 12, 12)
+                .addGroup(jPanelAddAndEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_processorCPU, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel4))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelAddAndEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_ram, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel5))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelAddAndEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_size, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel8)
+                    .addComponent(jLabel7)
+                    .addComponent(txt_weight, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelAddAndEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_disk, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel9))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelAddAndEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_card, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel10))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelAddAndEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(txt_battery, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel11))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelAddAndEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel34))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jPanelAddImg, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanelAddAndEditLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(16, Short.MAX_VALUE))
+        );
+
+        javax.swing.GroupLayout jDialog1Layout = new javax.swing.GroupLayout(jDialog1.getContentPane());
+        jDialog1.getContentPane().setLayout(jDialog1Layout);
+        jDialog1Layout.setHorizontalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanelAddAndEdit, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jDialog1Layout.setVerticalGroup(
+            jDialog1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanelAddAndEdit, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        jDialog2.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        jDialog2.setModal(true);
+        jDialog2.setName("dialog2"); // NOI18N
+        jDialog2.setUndecorated(true);
+        jDialog2.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                jDialog2MouseDragged(evt);
+            }
+        });
+        jDialog2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jDialog2MousePressed(evt);
+            }
+        });
+
+        jPanelView.setBackground(new java.awt.Color(18, 32, 49));
+
+        jPanelHeader.setBackground(new java.awt.Color(18, 32, 49));
+        jPanelHeader.setPreferredSize(new java.awt.Dimension(847, 71));
+
+        jSeparator_search.setBackground(java.awt.SystemColor.inactiveCaption);
+        jSeparator_search.setForeground(java.awt.SystemColor.inactiveCaption);
+
+        jTextFieldSearch.setBackground(new java.awt.Color(18, 32, 49));
+        jTextFieldSearch.setFont(new java.awt.Font("Segoe UI Light", 2, 14)); // NOI18N
+        jTextFieldSearch.setForeground(new java.awt.Color(255, 255, 255));
+        jTextFieldSearch.setText("Tìm tên sản phẩm");
+        jTextFieldSearch.setBorder(null);
+        jTextFieldSearch.setCaretColor(new java.awt.Color(255, 255, 255));
+        jTextFieldSearch.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        jTextFieldSearch.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jTextFieldSearchMouseClicked(evt);
+            }
+        });
+        jTextFieldSearch.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                jTextFieldSearchKeyReleased(evt);
+            }
+        });
+
+        jLabel_search.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/search_20px.png"))); // NOI18N
+
+        jLabel_close1.setBackground(new java.awt.Color(18, 32, 49));
+        jLabel_close1.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel_close1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel_close1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel_close1.setText("X");
+        jLabel_close1.setOpaque(true);
+        jLabel_close1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel_close1MouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabel_close1MouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLabel_close1MouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanelHeaderLayout = new javax.swing.GroupLayout(jPanelHeader);
+        jPanelHeader.setLayout(jPanelHeaderLayout);
+        jPanelHeaderLayout.setHorizontalGroup(
+            jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelHeaderLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelHeaderLayout.createSequentialGroup()
+                        .addComponent(jLabel_search)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(jSeparator_search, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jTextFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 185, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(0, 0, Short.MAX_VALUE))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelHeaderLayout.createSequentialGroup()
+                        .addGap(0, 0, Short.MAX_VALUE)
+                        .addComponent(jLabel_close1, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))))
+        );
+        jPanelHeaderLayout.setVerticalGroup(
+            jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelHeaderLayout.createSequentialGroup()
+                .addComponent(jLabel_close1, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 12, Short.MAX_VALUE)
+                .addGroup(jPanelHeaderLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelHeaderLayout.createSequentialGroup()
+                        .addGap(26, 26, 26)
+                        .addComponent(jSeparator_search, javax.swing.GroupLayout.PREFERRED_SIZE, 2, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jTextFieldSearch, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel_search, javax.swing.GroupLayout.Alignment.TRAILING))
+                .addContainerGap())
+        );
+
+        jPanelList.setBackground(new java.awt.Color(3, 140, 90));
+        jPanelList.setPreferredSize(new java.awt.Dimension(212, 500));
+
+        jList1.setFont(new java.awt.Font("Segoe UI Light", 0, 14)); // NOI18N
+        jList1.setModel(new javax.swing.AbstractListModel<String>() {
+            String[] strings = { "Item 1", "Item 2", "Item 3", "Item 4", "Item 5" };
+            public int getSize() { return strings.length; }
+            public String getElementAt(int i) { return strings[i]; }
+        });
+        jList1.setSelectionBackground(new java.awt.Color(36, 193, 93));
+        jList1.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jList1MouseClicked(evt);
+            }
+        });
+        jScrollPane3.setViewportView(jList1);
+
+        jLabel1.setFont(new java.awt.Font("Segoe UI Light", 0, 18)); // NOI18N
+        jLabel1.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel1.setText("Danh sách sản phẩm");
+
+        javax.swing.GroupLayout jPanelListLayout = new javax.swing.GroupLayout(jPanelList);
+        jPanelList.setLayout(jPanelListLayout);
+        jPanelListLayout.setHorizontalGroup(
+            jPanelListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelListLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jScrollPane3)
+                    .addGroup(jPanelListLayout.createSequentialGroup()
+                        .addComponent(jLabel1)
+                        .addGap(0, 40, Short.MAX_VALUE)))
+                .addContainerGap())
+        );
+        jPanelListLayout.setVerticalGroup(
+            jPanelListLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelListLayout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(jLabel1)
+                .addGap(35, 35, 35)
+                .addComponent(jScrollPane3)
+                .addContainerGap())
+        );
+
+        jPanelInfo.setBackground(new java.awt.Color(36, 47, 65));
+
+        jLabel35.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel35.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel35.setText("Giá");
+
+        jLabel36.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel36.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel36.setText("Main");
+
+        jLabel55.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel55.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel55.setText("Ram");
+
+        jLabelPrice.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabelPrice.setForeground(new java.awt.Color(255, 255, 255));
+
+        jLabelProcessorCPU.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabelProcessorCPU.setForeground(new java.awt.Color(255, 255, 255));
+
+        jLabelRam.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabelRam.setForeground(new java.awt.Color(255, 255, 255));
+
+        jLabel61.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel61.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel61.setText("Pin");
+
+        jLabelBatt.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabelBatt.setForeground(new java.awt.Color(255, 255, 255));
+
+        jLabelPName.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
+        jLabelPName.setForeground(new java.awt.Color(255, 255, 255));
+        jLabelPName.setPreferredSize(new java.awt.Dimension(243, 43));
+
+        jLabel64.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel64.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel64.setText("Kích thước");
+
+        jLabelSizes.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabelSizes.setForeground(new java.awt.Color(255, 255, 255));
+
+        jLabel66.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel66.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel66.setText("Trọng lượng");
+
+        jLabelWeights.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabelWeights.setForeground(new java.awt.Color(255, 255, 255));
+
+        jLabel68.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel68.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel68.setText("Ổ cứng");
+
+        jLabelDisk.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabelDisk.setForeground(new java.awt.Color(255, 255, 255));
+
+        jLabel70.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel70.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel70.setText("Card đồ họa");
+
+        jLabelGPU.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabelGPU.setForeground(new java.awt.Color(255, 255, 255));
+
+        jLabel37.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel37.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel37.setText("Số lượng");
+
+        jLabelQty.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabelQty.setForeground(new java.awt.Color(255, 255, 255));
+
+        javax.swing.GroupLayout jPanelInfoLayout = new javax.swing.GroupLayout(jPanelInfo);
+        jPanelInfo.setLayout(jPanelInfoLayout);
+        jPanelInfoLayout.setHorizontalGroup(
+            jPanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelInfoLayout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addGroup(jPanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanelInfoLayout.createSequentialGroup()
+                        .addComponent(jLabel35)
+                        .addGap(74, 74, 74)
+                        .addComponent(jLabelPrice, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelInfoLayout.createSequentialGroup()
+                        .addComponent(jLabel37)
+                        .addGap(40, 40, 40)
+                        .addComponent(jLabelQty, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelInfoLayout.createSequentialGroup()
+                        .addComponent(jLabel36)
+                        .addGap(63, 63, 63)
+                        .addComponent(jLabelProcessorCPU, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelInfoLayout.createSequentialGroup()
+                        .addComponent(jLabel55)
+                        .addGap(67, 67, 67)
+                        .addComponent(jLabelRam, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelInfoLayout.createSequentialGroup()
+                        .addComponent(jLabel64)
+                        .addGap(30, 30, 30)
+                        .addComponent(jLabelSizes, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelInfoLayout.createSequentialGroup()
+                        .addComponent(jLabel66)
+                        .addGap(19, 19, 19)
+                        .addComponent(jLabelWeights, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelInfoLayout.createSequentialGroup()
+                        .addComponent(jLabel68)
+                        .addGap(49, 49, 49)
+                        .addComponent(jLabelDisk, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelInfoLayout.createSequentialGroup()
+                        .addComponent(jLabel70)
+                        .addGap(18, 18, 18)
+                        .addComponent(jLabelGPU, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanelInfoLayout.createSequentialGroup()
+                        .addComponent(jLabel61)
+                        .addGap(75, 75, 75)
+                        .addComponent(jLabelBatt, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanelInfoLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jLabelPName, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addContainerGap())
+        );
+        jPanelInfoLayout.setVerticalGroup(
+            jPanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelInfoLayout.createSequentialGroup()
+                .addGap(33, 33, 33)
+                .addComponent(jLabelPName, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(18, 18, 18)
+                .addGroup(jPanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel35)
+                    .addComponent(jLabelPrice))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel37)
+                    .addComponent(jLabelQty))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel36)
+                    .addComponent(jLabelProcessorCPU))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel55)
+                    .addComponent(jLabelRam))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel64)
+                    .addComponent(jLabelSizes))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel66)
+                    .addComponent(jLabelWeights))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel68)
+                    .addComponent(jLabelDisk))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel70)
+                    .addComponent(jLabelGPU))
+                .addGap(18, 18, 18)
+                .addGroup(jPanelInfoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel61)
+                    .addComponent(jLabelBatt)))
+        );
+
+        jPanelImg.setPreferredSize(new java.awt.Dimension(362, 445));
+
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        jLabel12.setText("Hình ảnh sản phẩm");
+
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 0, 10)); // NOI18N
+        jLabel14.setText("Sales Management ©");
+
+        javax.swing.GroupLayout jPanelImgLayout = new javax.swing.GroupLayout(jPanelImg);
+        jPanelImg.setLayout(jPanelImgLayout);
+        jPanelImgLayout.setHorizontalGroup(
+            jPanelImgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelImgLayout.createSequentialGroup()
+                .addContainerGap()
+                .addGroup(jPanelImgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jLabel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addGroup(jPanelImgLayout.createSequentialGroup()
+                        .addGroup(jPanelImgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(img)
+                            .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(195, Short.MAX_VALUE))))
+            .addComponent(jLabelViewImg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanelImgLayout.setVerticalGroup(
+            jPanelImgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelImgLayout.createSequentialGroup()
+                .addGap(31, 31, 31)
+                .addComponent(jLabel12)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabel14)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addComponent(img)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jLabelViewImg, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        javax.swing.GroupLayout jPanelViewLayout = new javax.swing.GroupLayout(jPanelView);
+        jPanelView.setLayout(jPanelViewLayout);
+        jPanelViewLayout.setHorizontalGroup(
+            jPanelViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelViewLayout.createSequentialGroup()
+                .addContainerGap()
+                .addComponent(jPanelList, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanelInfo, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jPanelImg, javax.swing.GroupLayout.DEFAULT_SIZE, 356, Short.MAX_VALUE)
+                .addContainerGap())
+            .addComponent(jPanelHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jPanelViewLayout.setVerticalGroup(
+            jPanelViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanelViewLayout.createSequentialGroup()
+                .addComponent(jPanelHeader, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(jPanelViewLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(jPanelList, javax.swing.GroupLayout.DEFAULT_SIZE, 445, Short.MAX_VALUE)
+                    .addComponent(jPanelInfo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jPanelImg, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+        );
+
+        javax.swing.GroupLayout jDialog2Layout = new javax.swing.GroupLayout(jDialog2.getContentPane());
+        jDialog2.getContentPane().setLayout(jDialog2Layout);
+        jDialog2Layout.setHorizontalGroup(
+            jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanelView, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jDialog2Layout.setVerticalGroup(
+            jDialog2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanelView, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        jDialog3.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        jDialog3.setModal(true);
+        jDialog3.setName("dialog3"); // NOI18N
+        jDialog3.setUndecorated(true);
+        jDialog3.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                jDialog3MouseDragged(evt);
+            }
+        });
+        jDialog3.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                jDialog3MousePressed(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel_imgLayout = new javax.swing.GroupLayout(jPanel_img);
+        jPanel_img.setLayout(jPanel_imgLayout);
+        jPanel_imgLayout.setHorizontalGroup(
+            jPanel_imgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel_img, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+        jPanel_imgLayout.setVerticalGroup(
+            jPanel_imgLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel_img, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        jPanel_close.setBackground(new java.awt.Color(3, 140, 90));
+        jPanel_close.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(1, 198, 83)));
+
+        jLabel_close2.setBackground(new java.awt.Color(3, 140, 90));
+        jLabel_close2.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel_close2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel_close2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel_close2.setText("X");
+        jLabel_close2.setOpaque(true);
+        jLabel_close2.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel_close2MouseClicked(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel_closeLayout = new javax.swing.GroupLayout(jPanel_close);
+        jPanel_close.setLayout(jPanel_closeLayout);
+        jPanel_closeLayout.setHorizontalGroup(
+            jPanel_closeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_closeLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel_close2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel_closeLayout.setVerticalGroup(
+            jPanel_closeLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel_closeLayout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jLabel_close2, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        javax.swing.GroupLayout jDialog3Layout = new javax.swing.GroupLayout(jDialog3.getContentPane());
+        jDialog3.getContentPane().setLayout(jDialog3Layout);
+        jDialog3Layout.setHorizontalGroup(
+            jDialog3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel_close, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addComponent(jPanel_img, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+        );
+        jDialog3Layout.setVerticalGroup(
+            jDialog3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jDialog3Layout.createSequentialGroup()
+                .addComponent(jPanel_close, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jPanel_img, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setBackground(new java.awt.Color(255, 255, 255));
+        setLocationByPlatform(true);
+        setUndecorated(true);
+        addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseDragged(java.awt.event.MouseEvent evt) {
+                formMouseDragged(evt);
+            }
+        });
+        addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mousePressed(java.awt.event.MouseEvent evt) {
+                formMousePressed(evt);
+            }
+        });
+
+        sidebar.setBackground(new java.awt.Color(34, 41, 50));
+
+        lbl_add.setBackground(new java.awt.Color(48, 201, 235));
+        lbl_add.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbl_add.setForeground(new java.awt.Color(166, 166, 166));
+        lbl_add.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/plus_18px.png"))); // NOI18N
+        lbl_add.setText("Thêm");
+        lbl_add.setToolTipText("");
+        lbl_add.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbl_addMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lbl_addMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lbl_addMouseExited(evt);
+            }
+        });
+
+        jPanel1.setBackground(new java.awt.Color(22, 27, 33));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(1, 198, 83));
+        jLabel2.setText("Sales Management ©");
+
+        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
+        jPanel1.setLayout(jPanel1Layout);
+        jPanel1Layout.setHorizontalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel1Layout.createSequentialGroup()
+                .addGap(54, 54, 54)
+                .addComponent(jLabel2)
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+        jPanel1Layout.setVerticalGroup(
+            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                .addContainerGap(26, Short.MAX_VALUE)
+                .addComponent(jLabel2)
+                .addGap(25, 25, 25))
+        );
+
+        jLabel3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/speech_bubble_25px.png"))); // NOI18N
+
+        lbl_view.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbl_view.setForeground(new java.awt.Color(166, 166, 166));
+        lbl_view.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/icons8-eye-18.png"))); // NOI18N
+        lbl_view.setText("Xem");
+        lbl_view.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbl_viewMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lbl_viewMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lbl_viewMouseExited(evt);
+            }
+        });
+
+        lbl_out.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        lbl_out.setForeground(new java.awt.Color(166, 166, 166));
+        lbl_out.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/icons8-left-18.png"))); // NOI18N
+        lbl_out.setText("Thoát");
+        lbl_out.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbl_outMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                lbl_outMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                lbl_outMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout sidebarLayout = new javax.swing.GroupLayout(sidebar);
+        sidebar.setLayout(sidebarLayout);
+        sidebarLayout.setHorizontalGroup(
+            sidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jPanel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sidebarLayout.createSequentialGroup()
+                .addContainerGap(49, Short.MAX_VALUE)
+                .addGroup(sidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sidebarLayout.createSequentialGroup()
+                        .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(92, 92, 92))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, sidebarLayout.createSequentialGroup()
+                        .addGroup(sidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(lbl_add, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbl_view, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(lbl_out, javax.swing.GroupLayout.PREFERRED_SIZE, 168, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(28, 28, 28))))
+        );
+        sidebarLayout.setVerticalGroup(
+            sidebarLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(sidebarLayout.createSequentialGroup()
+                .addGap(56, 56, 56)
+                .addComponent(jLabel3, javax.swing.GroupLayout.PREFERRED_SIZE, 51, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(55, 55, 55)
+                .addComponent(lbl_add, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbl_view, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lbl_out, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 265, Short.MAX_VALUE)
+                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+
+        header.setBackground(new java.awt.Color(3, 140, 90));
+        header.setPreferredSize(new java.awt.Dimension(773, 70));
+
+        btn_product.setBackground(new java.awt.Color(1, 198, 83));
+        btn_product.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btn_product.setForeground(new java.awt.Color(255, 255, 255));
+        btn_product.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btn_product.setText("Sản Phẩm");
+        btn_product.setOpaque(true);
+        btn_product.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_productMouseClicked(evt);
+            }
+        });
+
+        btn_detail.setBackground(new java.awt.Color(3, 140, 90));
+        btn_detail.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+        btn_detail.setForeground(new java.awt.Color(255, 255, 255));
+        btn_detail.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        btn_detail.setText("Chi Tiết Sản Phẩm");
+        btn_detail.setOpaque(true);
+        btn_detail.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                btn_detailMouseClicked(evt);
+            }
+        });
+
+        jPanel_clomin.setBackground(new java.awt.Color(34, 41, 50));
+
+        jLabel_mini.setBackground(new java.awt.Color(3, 140, 90));
+        jLabel_mini.setFont(new java.awt.Font("Tahoma", 1, 24)); // NOI18N
+        jLabel_mini.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel_mini.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel_mini.setText("-");
+        jLabel_mini.setOpaque(true);
+        jLabel_mini.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel_miniMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabel_miniMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLabel_miniMouseExited(evt);
+            }
+        });
+
+        jLabel_close.setBackground(new java.awt.Color(3, 140, 90));
+        jLabel_close.setFont(new java.awt.Font("Tahoma", 1, 14)); // NOI18N
+        jLabel_close.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel_close.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel_close.setText("X");
+        jLabel_close.setOpaque(true);
+        jLabel_close.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                jLabel_closeMouseClicked(evt);
+            }
+            public void mouseEntered(java.awt.event.MouseEvent evt) {
+                jLabel_closeMouseEntered(evt);
+            }
+            public void mouseExited(java.awt.event.MouseEvent evt) {
+                jLabel_closeMouseExited(evt);
+            }
+        });
+
+        javax.swing.GroupLayout jPanel_clominLayout = new javax.swing.GroupLayout(jPanel_clomin);
+        jPanel_clomin.setLayout(jPanel_clominLayout);
+        jPanel_clominLayout.setHorizontalGroup(
+            jPanel_clominLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(jPanel_clominLayout.createSequentialGroup()
+                .addComponent(jLabel_mini, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, 0)
+                .addComponent(jLabel_close, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+        );
+        jPanel_clominLayout.setVerticalGroup(
+            jPanel_clominLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(jLabel_mini, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+            .addComponent(jLabel_close, javax.swing.GroupLayout.PREFERRED_SIZE, 25, javax.swing.GroupLayout.PREFERRED_SIZE)
+        );
+
+        jLabel16.setIcon(new javax.swing.ImageIcon(getClass().getResource("/view/images/search_20px.png"))); // NOI18N
+
+        jSeparator1.setBackground(java.awt.SystemColor.inactiveCaption);
+        jSeparator1.setForeground(java.awt.SystemColor.inactiveCaption);
+
+        jPanel_search.setBackground(new java.awt.Color(34, 41, 50));
+        jPanel_search.setLayout(new java.awt.CardLayout());
+
+        txt_search_product.setBackground(new java.awt.Color(3, 140, 90));
+        txt_search_product.setFont(new java.awt.Font("Segoe UI Light", 2, 14)); // NOI18N
+        txt_search_product.setForeground(new java.awt.Color(255, 255, 255));
+        txt_search_product.setText("Tìm sản phẩm");
+        txt_search_product.setBorder(null);
+        txt_search_product.setCaretColor(new java.awt.Color(255, 255, 255));
+        txt_search_product.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txt_search_product.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_search_productMouseClicked(evt);
+            }
+        });
+        txt_search_product.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_search_productKeyReleased(evt);
+            }
+        });
+        jPanel_search.add(txt_search_product, "searchproduct");
+
+        txt_search_productDetail.setBackground(new java.awt.Color(3, 140, 90));
+        txt_search_productDetail.setFont(new java.awt.Font("Segoe UI Light", 2, 14)); // NOI18N
+        txt_search_productDetail.setForeground(new java.awt.Color(255, 255, 255));
+        txt_search_productDetail.setText("Tìm chi tiết sản phẩm");
+        txt_search_productDetail.setBorder(null);
+        txt_search_productDetail.setCaretColor(new java.awt.Color(255, 255, 255));
+        txt_search_productDetail.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+        txt_search_productDetail.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                txt_search_productDetailMouseClicked(evt);
+            }
+        });
+        txt_search_productDetail.addKeyListener(new java.awt.event.KeyAdapter() {
+            public void keyReleased(java.awt.event.KeyEvent evt) {
+                txt_search_productDetailKeyReleased(evt);
+            }
+        });
+        jPanel_search.add(txt_search_productDetail, "searchdetail");
+
+        javax.swing.GroupLayout headerLayout = new javax.swing.GroupLayout(header);
+        header.setLayout(headerLayout);
+        headerLayout.setHorizontalGroup(
+            headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(headerLayout.createSequentialGroup()
+                .addGap(693, 693, 693)
+                .addComponent(jPanel_clomin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
+            .addGroup(headerLayout.createSequentialGroup()
+                .addGap(6, 6, 6)
+                .addComponent(btn_product, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(6, 6, 6)
+                .addComponent(btn_detail, javax.swing.GroupLayout.PREFERRED_SIZE, 146, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel16)
+                .addGap(8, 8, 8)
+                .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addComponent(jPanel_search, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 250, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap())
+        );
+        headerLayout.setVerticalGroup(
+            headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(headerLayout.createSequentialGroup()
+                .addComponent(jPanel_clomin, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(headerLayout.createSequentialGroup()
+                        .addGap(15, 15, 15)
+                        .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btn_product, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btn_detail, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(5, 5, 5))
+                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, headerLayout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addGroup(headerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(headerLayout.createSequentialGroup()
+                                .addGap(14, 14, 14)
+                                .addComponent(jLabel16))
+                            .addGroup(headerLayout.createSequentialGroup()
+                                .addComponent(jPanel_search, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(0, 0, 0)
+                                .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addContainerGap())))
+        );
+
+        footer.setLayout(new java.awt.CardLayout());
+
+        product.setBackground(java.awt.SystemColor.controlShadow);
+        product.setLayout(new javax.swing.BoxLayout(product, javax.swing.BoxLayout.LINE_AXIS));
+
+        jScrollPane1.setBackground(java.awt.SystemColor.controlShadow);
+        jScrollPane1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(1, 198, 83)));
+
+        tbl_product.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        tbl_product.setForeground(new java.awt.Color(51, 51, 51));
+        tbl_product.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID Sản Phẩm", "Tên Sản Phẩm", "Giá (VNĐ)", "Số Lượng"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.Integer.class, java.lang.Integer.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tbl_product.setGridColor(new java.awt.Color(1, 198, 83));
+        tbl_product.setRowHeight(20);
+        tbl_product.setSelectionBackground(new java.awt.Color(1, 198, 83));
+        tbl_product.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_productMouseClicked(evt);
+            }
+        });
+        jScrollPane1.setViewportView(tbl_product);
+        tbl_product.setDefaultEditor(Object.class, null);
+
+        product.add(jScrollPane1);
+
+        footer.add(product, "card3");
+
+        productdetail.setBackground(java.awt.SystemColor.controlShadow);
+        productdetail.setLayout(new javax.swing.BoxLayout(productdetail, javax.swing.BoxLayout.LINE_AXIS));
+
+        jScrollPane2.setBackground(java.awt.SystemColor.controlShadow);
+        jScrollPane2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(1, 198, 83)));
+
+        tbl_detail.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+        tbl_detail.setForeground(new java.awt.Color(51, 51, 51));
+        tbl_detail.setModel(new javax.swing.table.DefaultTableModel(
+            new Object [][] {
+
+            },
+            new String [] {
+                "ID sản phẩm", "Hình ảnh", "Bộ xử lý", "Ram", "Kích thước", "Trọng lượng", "Ổ cứng", "Card đồ họa", "Pin"
+            }
+        ) {
+            Class[] types = new Class [] {
+                java.lang.Integer.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class, java.lang.String.class
+            };
+            boolean[] canEdit = new boolean [] {
+                false, false, false, false, false, false, false, false, false
+            };
+
+            public Class getColumnClass(int columnIndex) {
+                return types [columnIndex];
+            }
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
+        tbl_detail.setGridColor(new java.awt.Color(1, 198, 83));
+        tbl_detail.setRowHeight(20);
+        tbl_detail.setSelectionBackground(new java.awt.Color(1, 198, 83));
+        tbl_detail.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+        tbl_detail.addMouseMotionListener(new java.awt.event.MouseMotionAdapter() {
+            public void mouseMoved(java.awt.event.MouseEvent evt) {
+                tbl_detailMouseMoved(evt);
+            }
+        });
+        tbl_detail.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbl_detailMouseClicked(evt);
+            }
+        });
+        jScrollPane2.setViewportView(tbl_detail);
+        tbl_detail.setDefaultEditor(Object.class, null);
+
+        productdetail.add(jScrollPane2);
+
+        footer.add(productdetail, "card3");
+
+        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
+        getContentPane().setLayout(layout);
+        layout.setHorizontalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(sidebar, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                    .addComponent(header, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(footer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+        );
+        layout.setVerticalGroup(
+            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+            .addComponent(sidebar, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(header, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(footer, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+        );
+
+        pack();
+        setLocationRelativeTo(null);
+    }// </editor-fold>//GEN-END:initComponents
+
+    private void btn_productMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_productMouseClicked
+        setLblColorTab(btn_product);
+        resetLblColorTab(btn_detail);
+        //switch bettween Jpanels
+        productdetail.setVisible(false);
+        product.setVisible(true);
+
+        CardLayout cardLayout = (CardLayout) jPanel_search.getLayout();
+        cardLayout.show(jPanel_search, "searchproduct");
+    }//GEN-LAST:event_btn_productMouseClicked
+
+    private void btn_detailMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_btn_detailMouseClicked
+        resetLblColorTab(btn_product);
+        setLblColorTab(btn_detail);
+        //switch bettween Jpanels
+        productdetail.setVisible(true);
+        product.setVisible(false);
+
+        CardLayout cardLayout = (CardLayout) jPanel_search.getLayout();
+        cardLayout.show(jPanel_search, "searchdetail");
+    }//GEN-LAST:event_btn_detailMouseClicked
+
+    private void lbl_addMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_addMouseClicked
+        jDialog1.pack();
+        jDialog1.setLocationRelativeTo(null);
+        lbl_receiver.setText("Thêm sản phẩm");
+        txt_battery.setText("");
+        txt_ram.setText("");
+        txt_price.setText("");
+        txt_name.setText("");
+        txt_processorCPU.setText("");
+        txt_disk.setText("");
+        txt_size.setText("");
+        txt_card.setText("");
+        txt_weight.setText("");
+        jLabelAddImg.setIcon(null);
+        jDialog1.setVisible(true);
+    }//GEN-LAST:event_lbl_addMouseClicked
+
+    private void jMenuItemEditActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEditActionPerformed
+        clearRecord();
+        callEditProductForm(tbl_product);
+    }//GEN-LAST:event_jMenuItemEditActionPerformed
+
+    private void deleteProductOnTable(JTable tbl) {
+        int row = tbl.getSelectedRow();
+        String id = tbl.getModel().getValueAt(row, 0).toString();// get value at selected row and '0' is the first column (ID)
+        ProductController.RemoveProductByProductID(Integer.parseInt(id));
+        ProductDetailsController.RemoveProductDetailsByProductID(Integer.parseInt(id));
+        createDataTableProduct();
+        createDataTableDetail();
+    }
+
+    private void jMenuItemDeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemDeleteActionPerformed
+        deleteProductOnTable(tbl_product);
+    }//GEN-LAST:event_jMenuItemDeleteActionPerformed
+
+    private void tbl_productMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_productMouseClicked
+        if (SwingUtilities.isRightMouseButton(evt)) {
+            tbl_product.clearSelection();
+            int row = tbl_product.rowAtPoint(evt.getPoint());
+            tbl_product.setRowSelectionInterval(row, row);
+            jPopupMenu1.show(tbl_product, evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_tbl_productMouseClicked
+
+    private void jLabel_miniMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_miniMouseClicked
+        setState(Frame.ICONIFIED);
+    }//GEN-LAST:event_jLabel_miniMouseClicked
+
+    private void jLabel_miniMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_miniMouseEntered
+        jLabel_mini.setBackground(new Color(1, 198, 83));
+    }//GEN-LAST:event_jLabel_miniMouseEntered
+
+    private void jLabel_miniMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_miniMouseExited
+        jLabel_mini.setBackground(new Color(3, 140, 90));
+    }//GEN-LAST:event_jLabel_miniMouseExited
+
+    private void jLabel_closeMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_closeMouseClicked
+        setVisible(false);
+        dispose();
+    }//GEN-LAST:event_jLabel_closeMouseClicked
+
+    private void jLabel_closeMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_closeMouseEntered
+        jLabel_close.setBackground(new Color(1, 198, 83));
+    }//GEN-LAST:event_jLabel_closeMouseEntered
+
+    private void jLabel_closeMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_closeMouseExited
+        jLabel_close.setBackground(new Color(3, 140, 90));
+    }//GEN-LAST:event_jLabel_closeMouseExited
+
+    private void lbl_addMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_addMouseEntered
+        setLblColor(lbl_add);
+    }//GEN-LAST:event_lbl_addMouseEntered
+
+    private void lbl_addMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_addMouseExited
+        resetLblColor(lbl_add);
+    }//GEN-LAST:event_lbl_addMouseExited
+
+    DefaultListModel<String> modelList = null;
+
+    private void lbl_viewMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_viewMouseClicked
+        modelList = new DefaultListModel();
+        List<Product> list = ProductController.GetListProduct();
+        for (Product iProduct : list) {
+            modelList.addElement(iProduct.getProductName());
+        }
+        jList1.setModel(modelList);
+
+        jDialog2.pack();
+        jDialog2.setLocationRelativeTo(null);
+        jDialog2.setVisible(true);
+    }//GEN-LAST:event_lbl_viewMouseClicked
+
+    private void lbl_viewMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_viewMouseEntered
+        setLblColor(lbl_view);
+    }//GEN-LAST:event_lbl_viewMouseEntered
+
+    private void lbl_viewMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_viewMouseExited
+        resetLblColor(lbl_view);
+    }//GEN-LAST:event_lbl_viewMouseExited
+
+    private void lbl_outMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_outMouseClicked
+        setVisible(false);
+        dispose();
+    }//GEN-LAST:event_lbl_outMouseClicked
+
+    private void lbl_outMouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_outMouseEntered
+        setLblColor(lbl_out);
+    }//GEN-LAST:event_lbl_outMouseEntered
+
+    private void lbl_outMouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_outMouseExited
+        resetLblColor(lbl_out);
+    }//GEN-LAST:event_lbl_outMouseExited
+
+    int xx;
+    int xy;
+
+    private void formMousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMousePressed
+        xx = evt.getX();
+        xy = evt.getY();
+        // This makes the window can be dragged (movable window)
+    }//GEN-LAST:event_formMousePressed
+
+    private void formMouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_formMouseDragged
+        int x = evt.getXOnScreen();
+        int y = evt.getYOnScreen();
+        this.setLocation(x - xx, y - xy);
+        // This makes the window can be dragged (movable window)
+    }//GEN-LAST:event_formMouseDragged
+
+    private void txt_processorCPUActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_processorCPUActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_processorCPUActionPerformed
+
+    private void txt_ramActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_ramActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_ramActionPerformed
+
+    private void txt_sizeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_sizeActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_sizeActionPerformed
+
+    private void txt_weightActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_weightActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_weightActionPerformed
+
+    private void txt_batteryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_batteryActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_batteryActionPerformed
+
+    private void txt_cardActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_cardActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_cardActionPerformed
+
+    private void txt_diskActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txt_diskActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_txt_diskActionPerformed
+
+    private void lbl_shipping2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_shipping2MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lbl_shipping2MouseClicked
+
+    private void lbl_receiverMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_receiverMouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lbl_receiverMouseClicked
+
+    private void clearRecord() {
+        txt_battery.setText("");
+        txt_ram.setText("");
+        txt_price.setText("");
+        txt_name.setText("");
+        txt_processorCPU.setText("");
+        txt_disk.setText("");
+        txt_size.setText("");
+        txt_card.setText("");
+        txt_weight.setText("");
+        jLabelAddImg.setIcon(null);
+        jLabel32.setBackground(new Color(255, 255, 255));
+        jLabel32.setForeground(new Color(69, 73, 74));
+    }
+    private void jButton2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton2MouseClicked
+        clearRecord();
+    }//GEN-LAST:event_jButton2MouseClicked
+
+    private void lbl_shipping4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbl_shipping4MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_lbl_shipping4MouseClicked
+
+    private void jLabel32MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel32MouseClicked
+        jDialog1.setVisible(false);
+        jDialog1.dispose();
+    }//GEN-LAST:event_jLabel32MouseClicked
+
+    private void jLabel_close1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_close1MouseClicked
+        jDialog2.setVisible(false);
+        jDialog2.dispose();
+    }//GEN-LAST:event_jLabel_close1MouseClicked
+
+    private void jLabel_close1MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_close1MouseEntered
+        jLabel_close1.setBackground(new Color(36, 193, 93));
+    }//GEN-LAST:event_jLabel_close1MouseEntered
+
+    private void jLabel_close1MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_close1MouseExited
+        jLabel_close1.setBackground(new Color(18, 32, 49));
+    }//GEN-LAST:event_jLabel_close1MouseExited
+
+    private void jLabel32MouseEntered(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel32MouseEntered
+        jLabel32.setBackground(new Color(1, 198, 83));
+        jLabel32.setForeground(new Color(255, 255, 255));
+    }//GEN-LAST:event_jLabel32MouseEntered
+
+    private void jLabel32MouseExited(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel32MouseExited
+        jLabel32.setBackground(new Color(255, 255, 255));
+        jLabel32.setForeground(new Color(69, 73, 74));
+    }//GEN-LAST:event_jLabel32MouseExited
+
+    private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
+        if (Validation.checkinputInteger(txt_price.getText())) {
+            if (lbl_receiver.getText().equals("Thêm sản phẩm")) {
+                Product p = new Product(0, txt_name.getText(), Integer.parseInt(txt_price.getText()), 0);
+                ProductController.AddProduct(p);
+                int productID = ProductController.isProductExists(txt_name.getText()).getProductID();
+                ProductDetails pd = new ProductDetails(productID, imgByteStream, txt_processorCPU.getText(), txt_ram.getText(), txt_size.getText(),
+                        txt_weight.getText(), txt_disk.getText(), txt_card.getText(), txt_battery.getText());
+                ProductDetailsController.AddProductDetails(pd);
+            } else {
+                int productID = Integer.parseInt(lbl_receiver.getText().substring(28));
+                Product p = new Product(productID, txt_name.getText(), Integer.parseInt(txt_price.getText()), 0);
+                ProductController.EditProduct(p);
+                ProductDetails pd = new ProductDetails(productID, imgByteStream, txt_processorCPU.getText(), txt_ram.getText(), txt_size.getText(),
+                        txt_weight.getText(), txt_disk.getText(), txt_card.getText(), txt_battery.getText());
+                ProductDetailsController.EditProductDetails(pd);
+            }
+
+            createDataTableProduct();
+            createDataTableDetail();
+            jDialog1.setVisible(false);
+            jDialog1.dispose();
+        } else {
+            new view.Message("Giá sản phẩm và số lượng phải là số nguyên dương", 2, 5).setVisible(true);
+        }
+    }//GEN-LAST:event_jButton1ActionPerformed
+
+    private void jDialog1MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jDialog1MousePressed
+        getFrameLocation(evt, jDialog1);
+        // This makes the window can be dragged (movable window)
+    }//GEN-LAST:event_jDialog1MousePressed
+
+    private void jDialog1MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jDialog1MouseDragged
+        setFrameLocation(evt, jDialog1);
+        // This makes the window can be dragged (movable window)
+    }//GEN-LAST:event_jDialog1MouseDragged
+
+    private void getFrameLocation(java.awt.event.MouseEvent evt, JDialog jDialog) {
+        xx = evt.getX();
+        xy = evt.getY();
+        // This makes the window can be dragged (movable window)
+    }
+
+    private void setFrameLocation(java.awt.event.MouseEvent evt, JDialog jDialog) {
+        int x = evt.getXOnScreen();
+        int y = evt.getYOnScreen();
+        jDialog.setLocation(x - xx, y - xy);
+        // This makes the window can be dragged (movable window)
+    }
+
+    private void tbl_detailMouseMoved(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_detailMouseMoved
+        if (tbl_detail.columnAtPoint(evt.getPoint()) == 1) {
+            setCursor(new Cursor(Cursor.HAND_CURSOR));
+        } else {
+            setCursor(new Cursor(0));
+        }
+    }//GEN-LAST:event_tbl_detailMouseMoved
+
+    private void tbl_detailMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbl_detailMouseClicked
+        if (tbl_detail.columnAtPoint(evt.getPoint()) == 1) {
+            if (SwingUtilities.isLeftMouseButton(evt)) {
+//                int row = tbl_product.getSelectedRow();// this row is not selected at THIS MOMENT (not filled with color yet), so it will return -1 (no row selected yet)
+                tbl_product.clearSelection();
+                int row = tbl_product.rowAtPoint(evt.getPoint());
+                String id = tbl_product.getModel().getValueAt(row, 0).toString();// get value at selected row and '0' is the first column (ID)
+                if (ProductDetailsController.GetBlob(Integer.parseInt(id), 500) != null) {
+                    jLabel_img.setIcon(ProductDetailsController.GetBlob(Integer.parseInt(id), 500));
+                    jDialog3.pack();
+                    jDialog3.setLocationRelativeTo(null);
+                    jDialog3.setVisible(true);
+                } else {
+                    new view.Message("Không có dữ liệu hình ảnh của sản phẩm này", 2, 5).setVisible(true);
+                }
+            }
+        }
+        if (SwingUtilities.isRightMouseButton(evt)) {
+            tbl_detail.clearSelection();
+            int row = tbl_detail.rowAtPoint(evt.getPoint());
+            tbl_detail.setRowSelectionInterval(row, row);
+            jPopupMenu2.show(tbl_detail, evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_tbl_detailMouseClicked
+
+    private void jLabel_close2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jLabel_close2MouseClicked
+        jDialog3.setVisible(false);
+        jDialog3.dispose();
+    }//GEN-LAST:event_jLabel_close2MouseClicked
+
+    private void jList1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jList1MouseClicked
+        if (!modelList.isEmpty() && jList1.getSelectedIndex() >= 0) {
+            String productName = modelList.getElementAt(jList1.getSelectedIndex());
+            jLabelPName.setText(productName);
+            Product p = ProductController.isProductExists(productName);
+            jLabelPrice.setText(String.valueOf(p.getUnitPrice()));
+            jLabelQty.setText(String.valueOf(p.getQtyonHand()));
+            ProductDetails pd = ProductDetailsController.GetProductDetailsByProductID(p.getProductID());
+            jLabelProcessorCPU.setText(pd.getProcessorCPU());
+            jLabelRam.setText(pd.getRam());
+            jLabelSizes.setText(pd.getSizes());
+            jLabelWeights.setText(pd.getWeights());
+            jLabelDisk.setText(pd.getHDD_SSD());
+            jLabelGPU.setText(pd.getGPU());
+            jLabelBatt.setText(pd.getBattery());
+            if (ProductDetailsController.GetBlob(p.getProductID(), 350) != null) {
+                jLabelViewImg.setIcon(ProductDetailsController.GetBlob(p.getProductID(), 350));
+            } else {
+                jLabelViewImg.setIcon(null);
+                new view.Message("Không có dữ liệu hình ảnh của sản phẩm này", 2, 5).setVisible(true);
+            }
+        }
+    }//GEN-LAST:event_jList1MouseClicked
+
+    private void jButton3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton3MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jButton3MouseClicked
+
+    private void jButton3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton3ActionPerformed
+        loadImgFileToInsertToDB();
+    }//GEN-LAST:event_jButton3ActionPerformed
+
+    private void jDialog2MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jDialog2MousePressed
+        getFrameLocation(evt, jDialog2);
+    }//GEN-LAST:event_jDialog2MousePressed
+
+    private void jDialog2MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jDialog2MouseDragged
+        setFrameLocation(evt, jDialog2);
+    }//GEN-LAST:event_jDialog2MouseDragged
+
+    private void jDialog3MousePressed(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jDialog3MousePressed
+        getFrameLocation(evt, jDialog3);
+    }//GEN-LAST:event_jDialog3MousePressed
+
+    private void jDialog3MouseDragged(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jDialog3MouseDragged
+        setFrameLocation(evt, jDialog3);
+    }//GEN-LAST:event_jDialog3MouseDragged
+
+    private void txt_search_productMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_search_productMouseClicked
+        txt_search_product.setText("");
+    }//GEN-LAST:event_txt_search_productMouseClicked
+
+    private void txt_search_productKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_search_productKeyReleased
+        Object[][] dataTable = null;
+        DefaultTableModel model = new DefaultTableModel(dataTable, headerTableProduct);
+        for (int i = 0; i < modelProduct.getRowCount(); i++) {
+            for (int j = 0; j < modelProduct.getColumnCount(); j++) {
+                if (modelProduct.getValueAt(i, j).toString().toUpperCase().contains(txt_search_product.getText().toUpperCase())) {
+                    Object[] row = new Object[modelProduct.getColumnCount()];
+                    for (int k = 0; k < modelProduct.getColumnCount(); k++) {
+                        row[k] = modelProduct.getValueAt(i, k);
+                    }
+                    model.addRow(row);
+                    break;
+                }
+            }
+        }
+        tbl_product.setModel(model);
+    }//GEN-LAST:event_txt_search_productKeyReleased
+
+    private void txt_search_productDetailMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txt_search_productDetailMouseClicked
+        txt_search_productDetail.setText("");
+    }//GEN-LAST:event_txt_search_productDetailMouseClicked
+
+    private void txt_search_productDetailKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_txt_search_productDetailKeyReleased
+        Object[][] dataTable = null;
+        DefaultTableModel model = new DefaultTableModel(dataTable, headerTableDetail);
+        for (int i = 0; i < modelDetail.getRowCount(); i++) {
+            for (int j = 0; j < modelDetail.getColumnCount(); j++) {
+                if (modelDetail.getValueAt(i, j).toString().toUpperCase().contains(txt_search_productDetail.getText().toUpperCase())) {
+                    Object[] row = new Object[modelDetail.getColumnCount()];
+                    for (int k = 0; k < modelDetail.getColumnCount(); k++) {
+                        row[k] = modelDetail.getValueAt(i, k);
+                    }
+                    model.addRow(row);
+                    break;
+                }
+            }
+        }
+        tbl_detail.setModel(model);
+    }//GEN-LAST:event_txt_search_productDetailKeyReleased
+
+    private void jTextFieldSearchKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_jTextFieldSearchKeyReleased
+        modelList = new DefaultListModel();
+        List<Product> list = ProductController.GetListProduct();
+        for (Product iProduct : list) {
+            boolean b = iProduct.getProductName().toUpperCase().contains(jTextFieldSearch.getText().toUpperCase());
+            if (b) {
+                modelList.addElement(iProduct.getProductName());
+            }
+        }
+        jList1.setModel(modelList);
+
+        jLabelBatt.setText("");
+        jLabelGPU.setText("");
+        jLabelDisk.setText("");
+        jLabelProcessorCPU.setText("");
+        jLabelPName.setText("");
+        jLabelPrice.setText("");
+        jLabelQty.setText("");
+        jLabelRam.setText("");
+        jLabelSizes.setText("");
+        jLabelWeights.setText("");
+        jLabelViewImg.setIcon(null);
+    }//GEN-LAST:event_jTextFieldSearchKeyReleased
+
+    private void jTextFieldSearchMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextFieldSearchMouseClicked
+        jTextFieldSearch.setText("");
+    }//GEN-LAST:event_jTextFieldSearchMouseClicked
+
+    private void callEditProductForm(JTable tbl) {
+        resetLblColor(lbl_add);
+        resetLblColor(lbl_view);
+        jDialog1.pack();
+        jDialog1.setLocationRelativeTo(null);
+
+        int row = tbl.getSelectedRow();
+        String id = tbl.getModel().getValueAt(row, 0).toString();// get value at selected row and '0' is the first column (ID)
+        Product p = ProductController.GetProductByProductID(Integer.parseInt(id));
+        String productName = p.getProductName();
+        String price = currencyFormatter.format(p.getUnitPrice());
+        String qty = String.valueOf(p.getQtyonHand());
+
+        lbl_receiver.setText("Sửa thông tin sản phẩm ID : " + id);
+        txt_name.setText(productName);
+        txt_price.setText(price.replaceAll(",", ""));
+
+        ProductDetails pd = ProductDetailsController.GetProductDetailsByProductID(Integer.parseInt(id));
+        txt_processorCPU.setText(pd.getProcessorCPU());
+        txt_ram.setText(pd.getRam());
+        txt_size.setText(pd.getSizes());
+        txt_weight.setText(pd.getWeights());
+        txt_disk.setText(pd.getHDD_SSD());
+        txt_card.setText(pd.getGPU());
+        txt_battery.setText(pd.getBattery());
+        if (ProductDetailsController.GetBlob(Integer.parseInt(id), 150) != null) {
+            jLabelAddImg.setIcon(ProductDetailsController.GetBlob(Integer.parseInt(id), 150));
+            //keep old picture
+            Image imgFromDB = ProductDetailsController.GetBlob(Integer.parseInt(id), 500).getImage();
+            BufferedImage bufferedImg = new BufferedImage(imgFromDB.getWidth(null), imgFromDB.getHeight(null), BufferedImage.TYPE_INT_RGB);
+            Graphics g = bufferedImg.createGraphics();
+            g.drawImage(imgFromDB, 0, 0, null);
+            g.dispose();
+            ByteArrayOutputStream outStream = new ByteArrayOutputStream();
+            try {
+                ImageIO.write(bufferedImg, "png", outStream);
+            } catch (IOException ex) {
+                Logger.getLogger(QLSanPham.class.getName()).log(Level.SEVERE, null, ex);
+            }
+            imgByteStream = new ByteArrayInputStream(outStream.toByteArray());
+            //keep old picture
+        } else {
+            new view.Message("Không có dữ liệu hình ảnh của sản phẩm này", 2, 5).setVisible(true);
+        }
+        jDialog1.setVisible(true);
+    }
+
+    private void jMenuItemEdit1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemEdit1ActionPerformed
+        clearRecord();
+        callEditProductForm(tbl_detail);
+    }//GEN-LAST:event_jMenuItemEdit1ActionPerformed
+
+    private void jMenuItemDelete1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jMenuItemDelete1ActionPerformed
+        deleteProductOnTable(tbl_detail);
+    }//GEN-LAST:event_jMenuItemDelete1ActionPerformed
+
+    public void setLblColor(JLabel lbl) {
+        lbl.setForeground(new Color(1, 198, 83));
+    }
+
+    public void resetLblColor(JLabel lbl) {
+        lbl.setForeground(new Color(166, 166, 166));
+    }
+
+    // ------------switch between colors for Active/Inactive color
+    public void setLblColorTab(JLabel lbl) {
+        lbl.setBackground(new Color(1, 198, 83));
+    }
+
+    public void resetLblColorTab(JLabel lbl) {
+        lbl.setBackground(new Color(3, 140, 90));
+    }
+
+    InputStream imgByteStream = null;
+
+    private void loadImgFileToInsertToDB() {
+        JFileChooser fc = new JFileChooser();
+        fc.setCurrentDirectory(new File(System.getProperty("user.home")));// without setCurrentDirectory(), Document folder is default
+        fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
+        fc.addChoosableFileFilter(new FileNameExtensionFilter("JPG, PNG, GIF", "jpg", "png", "gif"));
+        fc.setAcceptAllFileFilterUsed(true);
+        int select = fc.showDialog(fc, "Chọn hình ảnh");
+        if (select == JFileChooser.APPROVE_OPTION) {
+            try {
+                imgByteStream = new FileInputStream(fc.getSelectedFile());
+                FileInputStream imgTemp = new FileInputStream(fc.getSelectedFile());
+                BufferedImage buffImg = ImageIO.read(imgTemp);
+                ImageIcon imgAdd = new ImageIcon(buffImg);
+                Image resizedImage = imgAdd.getImage().getScaledInstance(150, 150, Image.SCALE_SMOOTH);
+                imgAdd = new ImageIcon(resizedImage);
+                jLabelAddImg.setIcon(imgAdd);
+            } catch (FileNotFoundException ex) {
+                Logger.getLogger(QLSanPham.class.getName()).log(Level.SEVERE, null, ex);
+            } catch (IOException ex) {
+                Logger.getLogger(QLSanPham.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+    }
+
+    /**
+     * @param args the command line arguments
+     */
+    public static void main(String args[]) {
+        /* Set the Windows look and feel */
+        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
+        /* If Windows (introduced in Java SE 6) is not available, stay with the default look and feel.
+         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
+         */
+        try {
+            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
+                if ("Windows".equals(info.getName())) {
+                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
+                    break;
+                }
+            }
+        } catch (ClassNotFoundException | InstantiationException | IllegalAccessException | javax.swing.UnsupportedLookAndFeelException ex) {
+            java.util.logging.Logger.getLogger(QLSanPham.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
+        }
+
+        /* Create and display the form */
+        java.awt.EventQueue.invokeLater(new Runnable() {
+            @Override
+            public void run() {
+                new QLSanPham().setVisible(true);
+
+            }
+        });
+    }
+
+    // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JLabel btn_detail;
+    private javax.swing.JLabel btn_product;
+    private javax.swing.JPanel footer;
+    private javax.swing.JPanel header;
+    private javax.swing.JLabel img;
+    private javax.swing.JButton jButton1;
+    private javax.swing.JButton jButton2;
+    private javax.swing.JButton jButton3;
+    private javax.swing.JDialog jDialog1;
+    private javax.swing.JDialog jDialog2;
+    private javax.swing.JDialog jDialog3;
+    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel10;
+    private javax.swing.JLabel jLabel11;
+    private javax.swing.JLabel jLabel12;
+    private javax.swing.JLabel jLabel14;
+    private javax.swing.JLabel jLabel16;
+    private javax.swing.JLabel jLabel2;
+    private javax.swing.JLabel jLabel3;
+    private javax.swing.JLabel jLabel32;
+    private javax.swing.JLabel jLabel33;
+    private javax.swing.JLabel jLabel34;
+    private javax.swing.JLabel jLabel35;
+    private javax.swing.JLabel jLabel36;
+    private javax.swing.JLabel jLabel37;
+    private javax.swing.JLabel jLabel4;
+    private javax.swing.JLabel jLabel5;
+    private javax.swing.JLabel jLabel55;
+    private javax.swing.JLabel jLabel61;
+    private javax.swing.JLabel jLabel64;
+    private javax.swing.JLabel jLabel66;
+    private javax.swing.JLabel jLabel68;
+    private javax.swing.JLabel jLabel7;
+    private javax.swing.JLabel jLabel70;
+    private javax.swing.JLabel jLabel8;
+    private javax.swing.JLabel jLabel9;
+    private javax.swing.JLabel jLabelAddImg;
+    private javax.swing.JLabel jLabelBatt;
+    private javax.swing.JLabel jLabelDisk;
+    private javax.swing.JLabel jLabelGPU;
+    private javax.swing.JLabel jLabelPName;
+    private javax.swing.JLabel jLabelPrice;
+    private javax.swing.JLabel jLabelProcessorCPU;
+    private javax.swing.JLabel jLabelQty;
+    private javax.swing.JLabel jLabelRam;
+    private javax.swing.JLabel jLabelSizes;
+    private javax.swing.JLabel jLabelViewImg;
+    private javax.swing.JLabel jLabelWeights;
+    private javax.swing.JLabel jLabel_close;
+    private javax.swing.JLabel jLabel_close1;
+    private javax.swing.JLabel jLabel_close2;
+    private javax.swing.JLabel jLabel_img;
+    private javax.swing.JLabel jLabel_mini;
+    private javax.swing.JLabel jLabel_search;
+    private javax.swing.JList<String> jList1;
+    private javax.swing.JMenuItem jMenuItemDelete;
+    private javax.swing.JMenuItem jMenuItemDelete1;
+    private javax.swing.JMenuItem jMenuItemEdit;
+    private javax.swing.JMenuItem jMenuItemEdit1;
+    private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanelAddAndEdit;
+    private javax.swing.JPanel jPanelAddImg;
+    private javax.swing.JPanel jPanelHeader;
+    private javax.swing.JPanel jPanelImg;
+    private javax.swing.JPanel jPanelInfo;
+    private javax.swing.JPanel jPanelList;
+    private javax.swing.JPanel jPanelView;
+    private javax.swing.JPanel jPanel_clomin;
+    private javax.swing.JPanel jPanel_close;
+    private javax.swing.JPanel jPanel_img;
+    private javax.swing.JPanel jPanel_search;
+    private javax.swing.JPopupMenu jPopupMenu1;
+    private javax.swing.JPopupMenu jPopupMenu2;
+    private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JScrollPane jScrollPane3;
+    private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JSeparator jSeparator2;
+    private javax.swing.JSeparator jSeparator_search;
+    private javax.swing.JTextField jTextFieldSearch;
+    private javax.swing.JLabel lbl_add;
+    private javax.swing.JLabel lbl_out;
+    private javax.swing.JLabel lbl_receiver;
+    private javax.swing.JLabel lbl_shipping2;
+    private javax.swing.JLabel lbl_shipping4;
+    private javax.swing.JLabel lbl_view;
+    private javax.swing.JPanel product;
+    private javax.swing.JPanel productdetail;
+    private javax.swing.JPanel sidebar;
+    private javax.swing.JTable tbl_detail;
+    private javax.swing.JTable tbl_product;
+    private javax.swing.JTextField txt_battery;
+    private javax.swing.JTextField txt_card;
+    private javax.swing.JTextField txt_disk;
+    private javax.swing.JTextField txt_name;
+    private javax.swing.JTextField txt_price;
+    private javax.swing.JTextField txt_processorCPU;
+    private javax.swing.JTextField txt_ram;
+    private javax.swing.JTextField txt_search_product;
+    private javax.swing.JTextField txt_search_productDetail;
+    private javax.swing.JTextField txt_size;
+    private javax.swing.JTextField txt_weight;
+    // End of variables declaration//GEN-END:variables
+}
